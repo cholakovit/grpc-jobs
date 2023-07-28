@@ -1,0 +1,27 @@
+// for syntax highlighting we use proto3 version
+syntax="proto3";
+
+// path to our current folder, where the generated files will be placed
+option go_package = "./proto";
+
+// package name for our proto file
+package jobs_service;
+
+// defining all the Services for the gRPC
+service JobService {
+    // bidirectional streaming RPC
+    rpc JobsBiStreaming(stream JobsRequest) returns (stream JobsResponse);
+}
+
+message Jobs {
+  string id = 1;
+  string title = 2;
+}
+
+message JobsRequest {
+  Jobs message = 1;
+}
+
+message JobsResponse {
+    string message = 1;
+}
