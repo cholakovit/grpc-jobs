@@ -6,6 +6,7 @@ import (
 	"net"
 
 	pb "grpc-jobs/proto"
+	"grpc-jobs/server/queries"
 
 	"google.golang.org/grpc"
 )
@@ -26,7 +27,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to start server %v", err)
 	}
-	
+
 	// create a new gRPC server
 	grpcServer := grpc.NewServer()
 	// register the greet service
@@ -36,10 +37,12 @@ func main() {
 	if err := grpcServer.Serve(lis); err != nil {
 		log.Fatalf("Failed to start: %v", err)
 	}
+
+	
 }
 
 func (s *JobsServer) JobsBiStreaming(stream pb.JobService_JobsBiStreamingServer) error {
-	for {
+
 		req, err := stream.Recv()
 		if err == io.EOF {
 			return nil
@@ -47,12 +50,14 @@ func (s *JobsServer) JobsBiStreaming(stream pb.JobService_JobsBiStreamingServer)
 		if err != nil {
 			return err
 		}
-		log.Printf("Got request with name : %v", req.Message)
+		
+		queries.PostJobQuery(req.Message)
 		res := &pb.JobsResponse{
 			Message: "Success!!!",
 		}
 		if err := stream.Send(res); err != nil {
 			return err
 		}
-	}
+
+		return nil
 }

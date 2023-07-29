@@ -8,6 +8,7 @@ import (
 
 func main() {
 	gin.SetMode(gin.ReleaseMode)	
+	//gin.SetMode(gin.DebugMode)	
 
 	routes.InitRoutes()
 }

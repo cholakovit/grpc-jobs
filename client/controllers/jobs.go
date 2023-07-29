@@ -1,79 +1,53 @@
 package controllers
 
 import (
-	"context"
-	"log"
 	"net/http"
 
-	"github.com/gin-gonic/gin"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/credentials/insecure"
+	clientgrpc "grpc-jobs/client/clientGrpc"
+	"grpc-jobs/server/model"
 
-	pb "grpc-jobs/proto"
+	"github.com/gin-gonic/gin"
 )
 
-const (
-	port = ":8080"
+var (
+	job		*model.Job
 )
 
 func GetJobs(c *gin.Context) {
-
-
 	c.JSON(http.StatusOK, gin.H{"message": "SUCCESS!"})
 }
 
-func PostJobs(c *gin.Context) {
-	conn, err := grpc.Dial("localhost"+port, grpc.WithTransportCredentials(insecure.NewCredentials()))
-	if err != nil {
-		log.Fatalf("Did not connect: %v", err)
-	}
-	defer conn.Close()
-
-	client := pb.NewJobServiceClient(conn)
-
-	job := &pb.Jobs{
-		Id: "1",
-		Title: "Job Title",
-	} 
-
-	CallJobBiStream(client, job)
-
-
-	c.JSON(http.StatusOK, gin.H{"message": "SUCCESS!"})
+func JobForm(c *gin.Context) {
+	c.HTML(http.StatusOK, "job.html", nil)
 }
 
-func CallJobBiStream(client pb.JobServiceClient, job *pb.Jobs) {
-	log.Printf("Bidirectional Streaming started")
-	stream, err := client.JobsBiStreaming(context.Background())
-	if err != nil {
-		log.Fatalf("Could not send products: %v", err)
+func PostJob(c *gin.Context) {
+	title := c.PostForm("title")
+	description := c.PostForm("description")
+	company := c.PostForm("company")
+	location := c.PostForm("location")
+	employment_type := c.PostForm("employment_type")
+	salary := c.PostForm("salary")
+	requirements := c.PostForm("requirements")
+	responsibilities := c.PostForm("responsibilities")
+	contact_information := c.PostForm("contact_information")
+	application_process := c.PostForm("application_process")
+
+	postedJob := model.Job{
+		Title: title,
+		Description: description,
+		Company: company,
+		Location: location,
+		Employment_Type: employment_type,
+		Salary: salary,
+		Requirements: requirements,
+		Responsibilities: responsibilities,
+		Contact_Information: contact_information,
+		Application_Process: application_process,
 	}
-	
-	waitc := make(chan struct{})
 
-	go func() {		
-			message, err := stream.Recv()
-			if err != nil {
-				log.Fatalf("Error while streaming %v", err)
-			}
-			log.Println(message)
-		close(waitc)
-	}()
+	clientgrpc.ConnectServer(&postedJob)
 
-	message := &pb.Jobs{
-		Id:    	job.Id,
-		Title:  job.Title,
-	}
-
-	req := &pb.JobsRequest{
-		Message: message,
-	}
-	
-	if err := stream.Send(req); err != nil {
-		log.Fatalf("Error while sending %v", err)
-	}	
-
-	stream.CloseSend()
-	<-waitc
-	log.Printf("Bidirectional Streaming finished")
+	// Redirect back to the JobForm handler
+	c.Redirect(http.StatusSeeOther, "/job")
 }

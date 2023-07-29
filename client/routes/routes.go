@@ -10,7 +10,7 @@ import (
 func InitRoutes() {
 	router := gin.Default()
 
-	ProductRoutes(router)
+	JobRoutes(router)
 
 	port := os.Getenv("PORT")
 	if port == "" {

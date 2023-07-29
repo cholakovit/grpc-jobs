@@ -16,6 +16,15 @@ service JobService {
 message Jobs {
   string id = 1;
   string title = 2;
+  string description = 3;
+  string company = 4;
+  string location = 5;
+  string employment_type = 6;
+  string salary = 7;
+  string requirements = 8;
+  string responsibilities = 9;
+  string contact_information = 10;
+  string application_process = 11;
 }
 
 message JobsRequest {
