@@ -1,6 +1,7 @@
 package clientgrpc
 
 import (
+	"grpc-jobs/client/helper"
 	"grpc-jobs/server/model"
 	"log"
 
@@ -10,12 +11,13 @@ import (
 	pb "grpc-jobs/proto"
 )
 
-const (
-	port = ":8080"
+var (
+	SERVER_PORT = helper.LoadEnv("SERVER_PORT")
+	LOCALHOST = helper.LoadEnv("LOCALHOST")
 )
 
 func ConnectServer(postedJob *model.Job) {
-	conn, err := grpc.Dial("localhost"+port, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	conn, err := grpc.Dial(LOCALHOST + SERVER_PORT, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		log.Fatalf("Did not connect: %v", err)
 	}

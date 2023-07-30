@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	clientgrpc "grpc-jobs/client/clientGrpc"
+	"grpc-jobs/client/constants"
 	"grpc-jobs/server/model"
 
 	"github.com/gin-gonic/gin"
@@ -14,7 +15,7 @@ var (
 )
 
 func GetJobs(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "SUCCESS!"})
+	c.JSON(http.StatusOK, gin.H{constants.MESSAGE: constants.SUCCESS})
 }
 
 func JobForm(c *gin.Context) {
@@ -22,28 +23,18 @@ func JobForm(c *gin.Context) {
 }
 
 func PostJob(c *gin.Context) {
-	title := c.PostForm("title")
-	description := c.PostForm("description")
-	company := c.PostForm("company")
-	location := c.PostForm("location")
-	employment_type := c.PostForm("employment_type")
-	salary := c.PostForm("salary")
-	requirements := c.PostForm("requirements")
-	responsibilities := c.PostForm("responsibilities")
-	contact_information := c.PostForm("contact_information")
-	application_process := c.PostForm("application_process")
 
 	postedJob := model.Job{
-		Title: title,
-		Description: description,
-		Company: company,
-		Location: location,
-		Employment_Type: employment_type,
-		Salary: salary,
-		Requirements: requirements,
-		Responsibilities: responsibilities,
-		Contact_Information: contact_information,
-		Application_Process: application_process,
+		Title: c.PostForm("title"),
+		Description: c.PostForm("description"),
+		Company: c.PostForm("company"),
+		Location: c.PostForm("location"),
+		Employment_Type: c.PostForm("employment_type"),
+		Salary: c.PostForm("salary"),
+		Requirements: c.PostForm("requirements"),
+		Responsibilities: c.PostForm("responsibilities"),
+		Contact_Information: c.PostForm("contact_information"),
+		Application_Process: c.PostForm("application_process"),
 	}
 
 	clientgrpc.ConnectServer(&postedJob)

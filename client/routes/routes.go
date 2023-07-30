@@ -1,21 +1,18 @@
 package routes
 
 import (
-	"log"
-	"os"
+	"grpc-jobs/client/helper"
 
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	PORT = helper.LoadEnv("PORT")
+	LOCALHOST = helper.LoadEnv("LOCALHOST")
+)
+
 func InitRoutes() {
 	router := gin.Default()
-
 	JobRoutes(router)
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		log.Fatal("PORT environment variable is not set")
-	}
-
-	router.Run("localhost:" + port)
+	router.Run(LOCALHOST + PORT)
 }
