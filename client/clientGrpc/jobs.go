@@ -7,6 +7,9 @@ import (
 	pb "grpc-jobs/proto"
 )
 
+// Define a channel to pass the received message to the controller
+var MessageChan = make(chan string, 1) // Use a buffer size of 1
+
 func CallCreateJob() {
 
 }
@@ -22,10 +25,21 @@ func CallJobBiStream(client pb.JobServiceClient, job *pb.Jobs) {
 
 	go func() {
 		message, err := stream.Recv()
+ 
 		if err != nil {
 			log.Fatalf("Error while streaming %v", err)
 		}
-		log.Println("Comming from the server", message)
+		log.Println("Comming from the server", message.Message)
+
+		// Send the received message to the channel (non-blocking)
+		select {
+		case MessageChan <- message.Message:
+				// Message sent successfully
+		default:
+				// Channel buffer is full, handle the case if needed
+				log.Println("Channel buffer is full, dropping the message.")
+		}
+
 		close(waitc)
 	}()
 

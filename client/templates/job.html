@@ -6,94 +6,131 @@
   <title>Document</title>
 
   <style>
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    background-color: #f2f2f2; /* Light gray background */
-}
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f2f2f2; /* Light gray background */
+    }
 
-form {
-    margin: 350px 0 0 0;
-    max-width: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #ffffff; /* White background */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
-}
+    form {
+      margin: 10px 0 0 0;
+      max-width: 800px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #ffffff; /* White background */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+    }
 
-form label {
-    display: block;
-    margin-bottom: 5px;
-}
+    form label {
+      display: block;
+      margin-bottom: 5px;
+    }
 
-form input[type="text"],
-form textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    resize: vertical;
-}
+    form input[type="text"],
+    form textarea {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      resize: vertical;
+    }
 
-form input[type="submit"] {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
+    form input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
 
-form input[type="submit"]:hover {
-    background-color: #45a049;
-}
+    form input[type="submit"]:hover {
+      background-color: #45a049;
+    }
 
-/* Additional styling for the body to make it darker */
-body {
-    background-color: rgba(0, 0, 0, 0.7); /* Darker background with some transparency */
-}
+    /* Additional styling for the body to make it darker */
+    body {
+      background-color: rgba(0, 0, 0, 0.7); /* Darker background with some transparency */
+    }
 
-</style>
+    /* CSS style for grouping two fields on one line */
+    .form-group {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+    }
+
+    .form-group label,
+    .form-group input[type="text"],
+    .form-group textarea {
+      flex: 0 0 45%; /* Each element will take 45% of the available space */
+      margin-bottom: 0; /* Remove the margin-bottom to keep elements on one line */
+    }
+
+    .form-group textarea {
+      resize: none; /* Prevent the textarea from being resized */
+    }
+
+    /* Clearfix to ensure the form groups wrap correctly */
+    .form-group::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+  </style>
 
 </head>
 <body>
   <form action="/postJob" method="post">
-    <label for="title">Job Title:</label>
-    <input type="text" name="title" id="title"><br>
+    <span>Received Message: {{ .ReceivedMessage }}</span>
 
-    <label for="description">Job Description:</label>
-    <textarea name="description" id="description" rows="4" cols="50"></textarea><br>
+    <div class="form-group">
+      <label for="title">Job Title:</label>
+      <input type="text" name="title" id="title">
 
-    <label for="company">Company:</label>
-    <input type="text" name="company" id="company"><br>
+      <label for="description">Job Description:</label>
+      <textarea name="description" id="description" rows="4" cols="50"></textarea>
+    </div>
 
-    <label for="location">Location:</label>
-    <input type="text" name="location" id="location"><br>
+    <div class="form-group">
+      <label for="company">Company:</label>
+      <input type="text" name="company" id="company">
 
-    <label for="employment_type">Employment Type:</label>
-    <input type="text" name="employment_type" id="employment_type"><br>
+      <label for="location">Location:</label>
+      <input type="text" name="location" id="location">
+    </div>
 
-    <label for="salary">Salary:</label>
-    <input type="text" name="salary" id="salary"><br>
+    <div class="form-group">
+      <label for="employment_type">Employment Type:</label>
+      <input type="text" name="employment_type" id="employment_type">
 
-    <label for="requirements">Requirements:</label>
-    <textarea name="requirements" id="requirements" rows="4" cols="50"></textarea><br>
+      <label for="salary">Salary:</label>
+      <input type="text" name="salary" id="salary">
+    </div>
 
-    <label for="responsibilities">Responsibilities:</label>
-    <textarea name="responsibilities" id="responsibilities" rows="4" cols="50"></textarea><br>
+    <div class="form-group">
+      <label for="requirements">Requirements:</label>
+      <textarea name="requirements" id="requirements" rows="4" cols="50"></textarea>
 
-    <label for="contact_information">Contact Information:</label>
-    <input type="text" name="contact_information" id="contact_information"><br>
+      <label for="responsibilities">Responsibilities:</label>
+      <textarea name="responsibilities" id="responsibilities" rows="4" cols="50"></textarea>
+    </div>
 
-    <label for="application_process">Application Process:</label>
-    <textarea name="application_process" id="application_process" rows="4" cols="50"></textarea><br>
+    <div class="form-group">
+      <label for="contact_information">Contact Information:</label>
+      <input type="text" name="contact_information" id="contact_information">
+
+      <label for="application_process">Application Process:</label>
+      <textarea name="application_process" id="application_process" rows="4" cols="50"></textarea>
+    </div>
 
     <input type="submit" value="Submit Job">
-</form>
+  </form>
 </body>
 </html>
