@@ -14,5 +14,6 @@ var (
 func InitRoutes() {
 	router := gin.Default()
 	JobRoutes(router)
+
 	router.Run(LOCALHOST + PORT)
 }

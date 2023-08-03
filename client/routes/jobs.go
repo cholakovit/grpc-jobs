@@ -15,6 +15,8 @@ func JobRoutes(router *gin.Engine) {
 	templatesPath := filepath.Join(baseDir, constants.TEMPLATES, constants.DOTHTML)
 	router.LoadHTMLGlob(templatesPath)
 
+	router.Static("/css", "./templates")
+
 	router.GET("/jobs", controllers.GetJobs)
 	router.GET("/job", controllers.JobForm)
 	router.POST("/postJob", controllers.PostJob)

@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"log"
 	"net/http"
 
 	clientgrpc "grpc-jobs/client/clientGrpc"
@@ -49,17 +48,13 @@ func PostJob(c *gin.Context) {
   // Receive the message from the channel (this will block until a message is received)
   receivedMessage := <-clientgrpc.MessageChan
 
-	log.Println("receivedMessage: ", receivedMessage)
-
-    // Create a TemplateData struct with the received message
-    data := TemplateData{
-			ReceivedMessage: receivedMessage,
-			// Add other data if needed for the template
+	data := TemplateData{
+		ReceivedMessage: receivedMessage,
 	}
 
 	// Redirect back to the JobForm handler
 	//c.Redirect(http.StatusSeeOther, "/job", data)
 
-    // Render the template with the data
-    c.HTML(http.StatusOK, "job.html", data)
+	// Render the template with the data
+	c.HTML(http.StatusOK, "job.html", data)
 }

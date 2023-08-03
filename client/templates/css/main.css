@@ -1,0 +1,79 @@
+
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+form {
+  margin: 10px 0 0 0;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ffffff; /* White background */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add a subtle box shadow */
+
+  /* border: 1px solid red; */
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+form input[type="text"],
+form textarea {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  resize: vertical;
+}
+
+form input[type="submit"] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+form input[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+/* Additional styling for the body to make it darker */
+body {
+  background-color: rgba(0, 0, 0, 0.7); /* Darker background with some transparency */
+}
+
+/* CSS style for grouping two fields on one line */
+.form-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.form-group label,
+.form-group input[type="text"],
+.form-group textarea {
+  flex: 0 0 45%; /* Each element will take 45% of the available space */
+  margin-bottom: 0; /* Remove the margin-bottom to keep elements on one line */
+}
+
+.form-group textarea {
+  resize: none; /* Prevent the textarea from being resized */
+}
+
+/* Clearfix to ensure the form groups wrap correctly */
+.form-group::after {
+  content: "";
+  display: table;
+  clear: both;
+}

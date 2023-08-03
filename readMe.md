@@ -1,6 +1,10 @@
 
 go get go.mongodb.org/mongo-driver/mongo@latest
 
+Starting commands:
+client/     gin --appPort 3000 --immediate
+server/     go run main.go
+
 protoc --go_out=. --go-grpc_out=. proto/jobs.proto
 go mod tidy
 
