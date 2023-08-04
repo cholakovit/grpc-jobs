@@ -5,6 +5,7 @@ import (
 
 	clientgrpc "grpc-jobs/client/clientGrpc"
 	"grpc-jobs/client/constants"
+	"grpc-jobs/client/helper"
 	"grpc-jobs/server/model"
 
 	"github.com/gin-gonic/gin"
@@ -12,11 +13,23 @@ import (
 
 var (
 	job		*model.Job
-
+	PORT = helper.LoadEnv("PORT")
+	LOCALHOST = helper.LoadEnv("LOCALHOST")
 )
 
 type TemplateData struct {
 	ReceivedMessage string
+}
+
+func renderMenu(c *gin.Context) {
+
+	c.HTML(http.StatusOK, "menu.html", nil)
+}
+
+func Home(c *gin.Context) {
+
+	// Render the template with the data
+	c.HTML(http.StatusOK, "home.html", nil)
 }
 
 func GetJobs(c *gin.Context) {

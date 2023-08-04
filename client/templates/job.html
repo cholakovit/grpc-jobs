@@ -3,57 +3,59 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/css/css/main.css">
+  <link rel="stylesheet" href="/templates/css/main.css">
   <title>Jobs</title>
 </head>
 <body>
-  <form action="/postJob" method="post">
-    <!-- {{ printf "Variable content: %v" .ReceivedMessage }} -->
-    {{ if and .ReceivedMessage (not (eq .ReceivedMessage "")) }}
-      <span>Received Message: {{ .ReceivedMessage }}</span>
-    {{ end }}
+  <div class="jobPostPage">
+    <form action="/postJob" method="post">
+      <!-- {{ printf "Variable content: %v" .ReceivedMessage }} -->
+      {{ if and .ReceivedMessage (not (eq .ReceivedMessage "")) }}
+        <span>Received Message: {{ .ReceivedMessage }}</span>
+      {{ end }}
 
-    <div class="form-group">
-      <label for="title">Job Title:</label>
-      <input type="text" name="title" id="title">
+      <div class="form-group">
+        <label for="title">Job Title:</label>
+        <input type="text" name="title" id="title">
 
-      <label for="description">Job Description:</label>
-      <textarea name="description" id="description" rows="4" cols="50"></textarea>
-    </div>
+        <label for="description">Job Description:</label>
+        <textarea name="description" id="description" rows="4" cols="50"></textarea>
+      </div>
 
-    <div class="form-group">
-      <label for="company">Company:</label>
-      <input type="text" name="company" id="company">
+      <div class="form-group">
+        <label for="company">Company:</label>
+        <input type="text" name="company" id="company">
 
-      <label for="location">Location:</label>
-      <input type="text" name="location" id="location">
-    </div>
+        <label for="location">Location:</label>
+        <input type="text" name="location" id="location">
+      </div>
 
-    <div class="form-group">
-      <label for="employment_type">Employment Type:</label>
-      <input type="text" name="employment_type" id="employment_type">
+      <div class="form-group">
+        <label for="employment_type">Employment Type:</label>
+        <input type="text" name="employment_type" id="employment_type">
 
-      <label for="salary">Salary:</label>
-      <input type="text" name="salary" id="salary">
-    </div>
+        <label for="salary">Salary:</label>
+        <input type="text" name="salary" id="salary">
+      </div>
 
-    <div class="form-group">
-      <label for="requirements">Requirements:</label>
-      <textarea name="requirements" id="requirements" rows="4" cols="50"></textarea>
+      <div class="form-group">
+        <label for="requirements">Requirements:</label>
+        <textarea name="requirements" id="requirements" rows="4" cols="50"></textarea>
 
-      <label for="responsibilities">Responsibilities:</label>
-      <textarea name="responsibilities" id="responsibilities" rows="4" cols="50"></textarea>
-    </div>
+        <label for="responsibilities">Responsibilities:</label>
+        <textarea name="responsibilities" id="responsibilities" rows="4" cols="50"></textarea>
+      </div>
 
-    <div class="form-group">
-      <label for="contact_information">Contact Information:</label>
-      <input type="text" name="contact_information" id="contact_information">
+      <div class="form-group">
+        <label for="contact_information">Contact Information:</label>
+        <input type="text" name="contact_information" id="contact_information">
 
-      <label for="application_process">Application Process:</label>
-      <textarea name="application_process" id="application_process" rows="4" cols="50"></textarea>
-    </div>
+        <label for="application_process">Application Process:</label>
+        <textarea name="application_process" id="application_process" rows="4" cols="50"></textarea>
+      </div>
 
-    <input type="submit" value="Submit Job">
-  </form>
+      <input type="submit" value="Submit Job">
+    </form>
+  </div>
 </body>
 </html>

@@ -9,15 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func JobRoutes(router *gin.Engine) {
+func JobRoutes(r *gin.Engine) {
 
 	baseDir := filepath.Dir(os.Args[0])
 	templatesPath := filepath.Join(baseDir, constants.TEMPLATES, constants.DOTHTML)
-	router.LoadHTMLGlob(templatesPath)
+	r.LoadHTMLGlob(templatesPath)
 
-	router.Static("/css", "./templates")
+	r.Static("/templates", "./templates")
 
-	router.GET("/jobs", controllers.GetJobs)
-	router.GET("/job", controllers.JobForm)
-	router.POST("/postJob", controllers.PostJob)
+	r.GET("/", controllers.Home)
+	r.GET("/jobs", controllers.GetJobs)
+	r.GET("/job", controllers.JobForm)
+	r.POST("/postJob", controllers.PostJob)
 }
