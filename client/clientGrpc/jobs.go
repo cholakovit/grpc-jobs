@@ -3,6 +3,7 @@ package clientgrpc
 import (
 	"context"
 	"log"
+	"time"
 
 	pb "grpc-jobs/proto"
 )
@@ -67,4 +68,15 @@ func CallJobBiStream(client pb.JobServiceClient, job *pb.Jobs) {
 	stream.CloseSend()
 	<-waitc
 	log.Printf("Bidirectional Streaming finished")
+}
+
+func ReceiveJobs(client pb.JobServiceClient) {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	res, err := client.ReturnJobList(ctx, &pb.NoParam{})
+	if err != nil {
+		log.Fatalf("Could not receive jobs: %v", err)
+	}
+	log.Printf("%s", res.Message)
 }

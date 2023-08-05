@@ -18,6 +18,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type JobServiceClient interface {
+	// simple RPC
+	ReturnJobList(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*JobListResponse, error)
 	// bidirectional streaming RPC
 	JobsBiStreaming(ctx context.Context, opts ...grpc.CallOption) (JobService_JobsBiStreamingClient, error)
 }
@@ -28,6 +30,15 @@ type jobServiceClient struct {
 
 func NewJobServiceClient(cc grpc.ClientConnInterface) JobServiceClient {
 	return &jobServiceClient{cc}
+}
+
+func (c *jobServiceClient) ReturnJobList(ctx context.Context, in *NoParam, opts ...grpc.CallOption) (*JobListResponse, error) {
+	out := new(JobListResponse)
+	err := c.cc.Invoke(ctx, "/jobs_service.JobService/ReturnJobList", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *jobServiceClient) JobsBiStreaming(ctx context.Context, opts ...grpc.CallOption) (JobService_JobsBiStreamingClient, error) {
@@ -65,6 +76,8 @@ func (x *jobServiceJobsBiStreamingClient) Recv() (*JobsResponse, error) {
 // All implementations must embed UnimplementedJobServiceServer
 // for forward compatibility
 type JobServiceServer interface {
+	// simple RPC
+	ReturnJobList(context.Context, *NoParam) (*JobListResponse, error)
 	// bidirectional streaming RPC
 	JobsBiStreaming(JobService_JobsBiStreamingServer) error
 	mustEmbedUnimplementedJobServiceServer()
@@ -74,6 +87,9 @@ type JobServiceServer interface {
 type UnimplementedJobServiceServer struct {
 }
 
+func (UnimplementedJobServiceServer) ReturnJobList(context.Context, *NoParam) (*JobListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ReturnJobList not implemented")
+}
 func (UnimplementedJobServiceServer) JobsBiStreaming(JobService_JobsBiStreamingServer) error {
 	return status.Errorf(codes.Unimplemented, "method JobsBiStreaming not implemented")
 }
@@ -88,6 +104,24 @@ type UnsafeJobServiceServer interface {
 
 func RegisterJobServiceServer(s grpc.ServiceRegistrar, srv JobServiceServer) {
 	s.RegisterService(&JobService_ServiceDesc, srv)
+}
+
+func _JobService_ReturnJobList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(NoParam)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(JobServiceServer).ReturnJobList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/jobs_service.JobService/ReturnJobList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(JobServiceServer).ReturnJobList(ctx, req.(*NoParam))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _JobService_JobsBiStreaming_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -122,7 +156,12 @@ func (x *jobServiceJobsBiStreamingServer) Recv() (*JobsRequest, error) {
 var JobService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "jobs_service.JobService",
 	HandlerType: (*JobServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "ReturnJobList",
+			Handler:    _JobService_ReturnJobList_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "JobsBiStreaming",

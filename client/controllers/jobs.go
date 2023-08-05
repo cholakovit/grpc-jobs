@@ -33,6 +33,10 @@ func Home(c *gin.Context) {
 }
 
 func GetJobs(c *gin.Context) {
+
+	client := clientgrpc.ConnectServer()
+	clientgrpc.ReceiveJobs(client)
+
 	c.JSON(http.StatusOK, gin.H{constants.MESSAGE: constants.SUCCESS})
 }
 
@@ -56,7 +60,7 @@ func PostJob(c *gin.Context) {
 		Application_Process: c.PostForm("application_process"),
 	}
 
-	clientgrpc.ConnectServer(&postedJob)
+	clientgrpc.PostJobServer(&postedJob)
 
   // Receive the message from the channel (this will block until a message is received)
   receivedMessage := <-clientgrpc.MessageChan

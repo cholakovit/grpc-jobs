@@ -9,9 +9,16 @@ package jobs_service;
 
 // defining all the Services for the gRPC
 service JobService {
+    // simple RPC
+    rpc ReturnJobList(NoParam) returns (JobListResponse);
+
     // bidirectional streaming RPC
     rpc JobsBiStreaming(stream JobsRequest) returns (stream JobsResponse);
 }
+
+// when you are not passing any params still you will need to add a type
+// NoParam acts as a type for no parameters given.
+message NoParam {};
 
 message Jobs {
   string id = 1;
@@ -33,4 +40,8 @@ message JobsRequest {
 
 message JobsResponse {
     string message = 1;
+}
+
+message JobListResponse {
+  repeated Jobs message = 1;
 }
