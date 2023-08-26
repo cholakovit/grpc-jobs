@@ -42,9 +42,7 @@ func (s *JobsServer) ReturnJobList(ctx context.Context, req *pb.NoParam) (*pb.Jo
 		log.Fatal(err)
 	}
 
-	log.Println("pbJobsSlice: ", pbJobsSlice)
-
 	return &pb.JobListResponse{
-		Message: pbJobsSlice,
+		Jobs: pbJobsSlice,
 	}, nil
 }

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"grpc-jobs/client/constants"
 	"grpc-jobs/client/controllers"
 	"os"
@@ -10,6 +11,8 @@ import (
 )
 
 func JobRoutes(r *gin.Engine) {
+
+	fmt.Println("JobRoutes")
 
 	baseDir := filepath.Dir(os.Args[0])
 	templatesPath := filepath.Join(baseDir, constants.TEMPLATES, constants.DOTHTML)

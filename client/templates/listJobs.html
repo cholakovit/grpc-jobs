@@ -6,6 +6,17 @@
   <title>List Jobs</title>
 </head>
 <body>
-  
+  <h1>Jobs List</h1>
+  <ul>
+      {{ range .Jobs }}
+      <li>
+          <strong>ID:</strong> {{ .Id }}<br>
+          <strong>Title:</strong> {{ .Title }}<br>
+          <strong>Description:</strong> {{ .Description }}<br>
+          <!-- Continue accessing other job fields -->
+          <hr>
+      </li>
+      {{ end }}
+  </ul>
 </body>
 </html>

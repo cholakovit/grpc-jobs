@@ -59,7 +59,7 @@ func GetJobsQuery() ([]model.Job, error) {
 	return fetchedJobs, nil
 }
 
-func PostJobQuery(job *pb.Jobs) error {
+func PostJobQuery(job *pb.Job) error {
 	var wg sync.WaitGroup // To wait for goroutine to complete
 	var resultErr error   // To store the error from the database operation
 
@@ -81,7 +81,7 @@ func PostJobQuery(job *pb.Jobs) error {
 	return resultErr
 }
 
-func ConvertToModelJob(pbJob *pb.Jobs) model.Job {
+func ConvertToModelJob(pbJob *pb.Job) model.Job {
 	return model.Job{
 		// Convert individual fields as needed
 		Title:             pbJob.Title,
@@ -97,9 +97,9 @@ func ConvertToModelJob(pbJob *pb.Jobs) model.Job {
 	}
 }
 
-func ConvertModelToProto(jobModel *model.Job) (*pb.Jobs, error) {
+func ConvertModelToProto(jobModel *model.Job) (*pb.Job, error) {
 	// Create a new pb.Jobs instance
-	jobPB := &pb.Jobs{}
+	jobPB := &pb.Job{}
 
 	// Convert ID from primitive.ObjectID to string
 	jobPB.Id = jobModel.ID.Hex()
@@ -119,8 +119,8 @@ func ConvertModelToProto(jobModel *model.Job) (*pb.Jobs, error) {
 	return jobPB, nil
 }
 
-func ConvertModelSliceToProtoSlice(jobs []model.Job) ([]*pb.Jobs, error) {
-	var pbJobsSlice []*pb.Jobs
+func ConvertModelSliceToProtoSlice(jobs []model.Job) ([]*pb.Job, error) {
+	var pbJobsSlice []*pb.Job
 
 	for _, job := range jobs {
 		pbJob, err := ConvertModelToProto(&job)

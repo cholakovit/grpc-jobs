@@ -1,4 +1,5 @@
-
+$ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go get github.com/githubnemo/CompileDaemon
 go get go.mongodb.org/mongo-driver/mongo@latest
 
 Starting commands:
@@ -7,6 +8,8 @@ server/     go run main.go
 
 protoc --go_out=. --go-grpc_out=. proto/jobs.proto
 go mod tidy
+
+$ CompileDaemon -command="./server"
 
 Creating Job JSON: 
 {

@@ -2,6 +2,7 @@ package clientgrpc
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"time"
 
@@ -15,7 +16,7 @@ func CallCreateJob() {
 
 }
 
-func CallJobBiStream(client pb.JobServiceClient, job *pb.Jobs) {
+func CallJobBiStream(client pb.JobServiceClient, job *pb.Job) {
 	log.Printf("Bidirectional Streaming started")
 	stream, err := client.JobsBiStreaming(context.Background())
 	if err != nil {
@@ -44,7 +45,7 @@ func CallJobBiStream(client pb.JobServiceClient, job *pb.Jobs) {
 		close(waitc)
 	}()
 
-	message := &pb.Jobs{
+	message := &pb.Job{
 		Id:                 job.Id,
 		Title:              job.Title,
 		Description:        job.Description,
@@ -70,13 +71,28 @@ func CallJobBiStream(client pb.JobServiceClient, job *pb.Jobs) {
 	log.Printf("Bidirectional Streaming finished")
 }
 
-func ReceiveJobs(client pb.JobServiceClient) {
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+func ReceiveJobs(client pb.JobServiceClient) (*pb.JobListResponse, error) {
+	fmt.Println("Receive Jobs client")
+	ctx, cancel := context.WithTimeout(context.Background(), 55*time.Second)
 	defer cancel()
 
 	res, err := client.ReturnJobList(ctx, &pb.NoParam{})
 	if err != nil {
 		log.Fatalf("Could not receive jobs: %v", err)
 	}
-	log.Printf("%s", res.Message)
+
+	return res, nil
+
+	//fmt.Println("Receive Jobs client res: ", res)
+
+	// for _, job := range res.Jobs {
+	// 	fmt.Printf("Job ID: %s\n", job.Id)
+	// 	fmt.Printf("Title: %s\n", job.Title)
+	// 	fmt.Printf("Description: %s\n", job.Description)
+	// 	// ... continue accessing other job fields
+	// 	fmt.Println("====================")
+	// }
+
+	//log.Printf("%s", res.Message)
+	//log.Printf("%s", res.Jobs)
 }

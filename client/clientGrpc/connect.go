@@ -25,7 +25,7 @@ func PostJobServer(postedJob *model.Job) {
 
 	client := pb.NewJobServiceClient(conn)
 
-	job := &pb.Jobs{
+	job := &pb.Job{
 		Title:              postedJob.Title,
 		Description:        postedJob.Description,
 		Company:            postedJob.Company,
@@ -45,7 +45,7 @@ func ConnectServer() pb.JobServiceClient {
 	if err != nil {
 		log.Fatalf("Did not connect: %v", err)
 	}
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := pb.NewJobServiceClient(conn)
 

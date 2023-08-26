@@ -1,10 +1,11 @@
 package controllers
 
 import (
+	"fmt"
+	"log"
 	"net/http"
 
 	clientgrpc "grpc-jobs/client/clientGrpc"
-	"grpc-jobs/client/constants"
 	"grpc-jobs/client/helper"
 	"grpc-jobs/server/model"
 
@@ -33,11 +34,16 @@ func Home(c *gin.Context) {
 }
 
 func GetJobs(c *gin.Context) {
-
+	fmt.Println("GetJobs")
 	client := clientgrpc.ConnectServer()
-	clientgrpc.ReceiveJobs(client)
+	response, err := clientgrpc.ReceiveJobs(client)
+	if err != nil {
+    log.Fatalf("Error: %v", err)
+	}
 
-	c.JSON(http.StatusOK, gin.H{constants.MESSAGE: constants.SUCCESS})
+	c.HTML(http.StatusOK, "listJobs.html", gin.H{
+		"Jobs": response.Jobs,
+	})
 }
 
 func JobForm(c *gin.Context) {

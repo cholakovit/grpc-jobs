@@ -20,7 +20,7 @@ service JobService {
 // NoParam acts as a type for no parameters given.
 message NoParam {};
 
-message Jobs {
+message Job {
   string id = 1;
   string title = 2;
   string description = 3;
@@ -35,13 +35,19 @@ message Jobs {
 }
 
 message JobsRequest {
-  Jobs message = 1;
+  Job message = 1;
 }
 
 message JobsResponse {
     string message = 1;
 }
 
+// Option 1 is a stream, it means you are returning an iterator and that means you can start processing the Items on client even 
+// before the server has finished sending all of them.
+
+// Option 2 is a response object which contains a list of your Items. You can add some other properties to your ItemResponse 
+// (some metadata etc)
+
 message JobListResponse {
-  repeated Jobs message = 1;
+  repeated Job jobs = 1;
 }
